@@ -3,6 +3,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_vime/core/config/language_detector.dart';
+import 'package:new_vime/core/router/router.dart';
 import 'package:new_vime/core/themes/theme_detector.dart';
 import 'package:new_vime/feature/home/presentation/bloc/providers/directionality_provider.dart';
 import 'package:new_vime/feature/home/presentation/bloc/shared_cubit/bottom_navigation_bar_cubit/bottom_navigation_bar_cubit.dart';
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<BottomNavigationBarCubit>(
               create: (context) => locator<BottomNavigationBarCubit>()),
         ],
-        child: FluentApp(
+        child: FluentApp.router(
           //  title: appTitle,
           // themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
@@ -68,6 +69,9 @@ class _MyAppState extends State<MyApp> {
           builder: (context, child) {
             return MainWrapperScreen();
           },
+          routeInformationParser: router.routeInformationParser,
+          routerDelegate: router.routerDelegate,
+          routeInformationProvider: router.routeInformationProvider,
         ));
     // return MultiBlocProvider(
     //   providers: [

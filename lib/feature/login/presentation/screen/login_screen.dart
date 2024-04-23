@@ -1,19 +1,17 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:new_vime/core/colors/app_color.dart';
 import 'package:new_vime/feature/home/presentation/bloc/providers/directionality_provider.dart';
 import 'package:new_vime/feature/home/presentation/bloc/shared_cubit/theme_cubit/theme_cubit.dart';
-import 'package:new_vime/feature/login/presentation/screen/login_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
@@ -54,12 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         FilledButton(
-          child: Text('Đăng xuất'),
-          style:
-              ButtonStyle(backgroundColor: ButtonState.all(AppColor.blue600)),
-          onPressed: () {
-            context.push('/login');
-          },
+          child: const Text('Filled Button'),
+          onPressed: () => debugPrint('pressed button'),
         )
       ],
     );

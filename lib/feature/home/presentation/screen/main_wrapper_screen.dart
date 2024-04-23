@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:new_vime/core/colors/app_color.dart';
@@ -10,7 +12,9 @@ import 'package:new_vime/feature/profile/presentation/screen/profile_screen.dart
 import 'package:new_vime/main.dart';
 
 class MainWrapperScreen extends StatefulWidget {
-  const MainWrapperScreen({super.key});
+  const MainWrapperScreen({
+    super.key,
+  });
 
   @override
   State<MainWrapperScreen> createState() => _MainWrapperScreenState();
@@ -18,9 +22,31 @@ class MainWrapperScreen extends StatefulWidget {
 
 class _MainWrapperScreenState extends State<MainWrapperScreen> {
   final TextEditingController textEditingController = TextEditingController();
-
+  int currentIndex = 0;
+  List<Tab> tabs = [];
   @override
   void initState() {
+    Tab generateTab(int index) {
+      late Tab tab;
+      tab = Tab(
+        text: Text('Document $index'),
+        semanticLabel: 'Document #$index',
+        icon: const FlutterLogo(),
+        body: Container(
+          color:
+              Colors.accentColors[Random().nextInt(Colors.accentColors.length)],
+        ),
+        onClosed: () {
+          setState(() {
+            tabs!.remove(tab);
+
+            if (currentIndex > 0) currentIndex--;
+          });
+        },
+      );
+      return tab;
+    }
+
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -49,43 +75,77 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
     double maxHeightBox = ScreenSize.fullHeightScreen(context) -
         appBarHeight -
         bottomNavigationBarHeight;
-    // textEditingController.addListener(() {
-    //   if(textEditingController.text != "") {
-    //     boxController.setSearchBody(child: Center(child: Text(textEditingController.value.text, style: TextStyle(color: Theme.of(context).colorScheme.onBackground, fontSize: 20),),));
-    //   } else {
-    //     boxController.setSearchBody(child: Center(child: Text("Empty", style: TextStyle(color: Theme.of(context).colorScheme.onBackground, fontSize: 20),),));
-    //   }
-    // });
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
-        builder: (_, bottomNavigationState) {
-          if (bottomNavigationState.activeIcon == ActiveIcon.icon1) {
-            return Container();
-          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon2) {
-            return Container();
-          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon3) {
-            return Container();
-          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon4) {
-            return const ProfileScreen();
-          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon5) {
-            return SizedBox(
-              height: 150,
-              child: Center(
-                child: Text(
-                  "The user profile can be found here",
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
-                ),
-              ),
-            );
-          }
-          return Container();
-        },
+    // return ScaffoldPage(
+    //   // backgroundColor: Colors.white,
+    //   content: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
+    //     builder: (_, bottomNavigationState) {
+    //       if (bottomNavigationState.activeIcon == ActiveIcon.icon1) {
+    //         return Container();
+    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon2) {
+    //         return Container();
+    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon3) {
+    //         return Container();
+    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon4) {
+    //         return const ProfileScreen();
+    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon5) {
+    //         return SizedBox(
+    //           height: 150,
+    //           child: Center(
+    //             child: Text(
+    //               "The user profile can be found here",
+    //               // style:
+    //               //     TextStyle(color: Theme.of(context).colorScheme.primary),
+    //             ),
+    //           ),
+    //         );
+    //       }
+    //       return Container();
+    //     },
+    //   ),
+    //   bottomBar: MainBottomNavigationBar(height: bottomNavigationBarHeight),
+    // );
+    return ScaffoldPage(
+      content: TabView(
+        tabs: [
+          Tab(
+            text: Text('Document 1'),
+            icon: const FlutterLogo(),
+            body: Container(
+              color: Colors
+                  .accentColors[Random().nextInt(Colors.accentColors.length)],
+            ),
+          ),
+          Tab(
+            text: Text('Document 1'),
+            icon: const FlutterLogo(),
+            body: Container(
+              color: Colors
+                  .accentColors[Random().nextInt(Colors.accentColors.length)],
+            ),
+          ),
+          Tab(
+            text: Text('Document 1'),
+            icon: const FlutterLogo(),
+            body: Container(
+              color: Colors
+                  .accentColors[Random().nextInt(Colors.accentColors.length)],
+            ),
+          ),
+          Tab(
+            text: Text('Document 1'),
+            icon: const FlutterLogo(),
+            body: Container(
+              color: Colors
+                  .accentColors[Random().nextInt(Colors.accentColors.length)],
+            ),
+          ),
+        ],
+        currentIndex: currentIndex,
+        onChanged: (index) => setState(() => currentIndex = index),
+        tabWidthBehavior: TabWidthBehavior.equal,
+        closeButtonVisibility: CloseButtonVisibilityMode.always,
+        // showScrollButtons: true,
       ),
-      bottomNavigationBar:
-          MainBottomNavigationBar(height: bottomNavigationBarHeight),
     );
   }
 }
