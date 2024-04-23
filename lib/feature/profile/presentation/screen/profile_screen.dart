@@ -55,10 +55,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         FilledButton(
           child: Text('Đăng xuất'),
-          style:
-              ButtonStyle(backgroundColor: ButtonState.all(AppColor.blue600)),
+          style: ButtonStyle(backgroundColor: ButtonState.all(AppColor.blue600)),
           onPressed: () {
-            context.push('/login');
+            context.go('/login');
           },
         )
       ],

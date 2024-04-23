@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:new_vime/core/colors/app_color.dart';
@@ -23,39 +24,13 @@ class MainWrapperScreen extends StatefulWidget {
 class _MainWrapperScreenState extends State<MainWrapperScreen> {
   final TextEditingController textEditingController = TextEditingController();
   int currentIndex = 0;
-  List<Tab> tabs = [];
   @override
   void initState() {
-    Tab generateTab(int index) {
-      late Tab tab;
-      tab = Tab(
-        text: Text('Document $index'),
-        semanticLabel: 'Document #$index',
-        icon: const FlutterLogo(),
-        body: Container(
-          color:
-              Colors.accentColors[Random().nextInt(Colors.accentColors.length)],
-        ),
-        onClosed: () {
-          setState(() {
-            tabs!.remove(tab);
-
-            if (currentIndex > 0) currentIndex--;
-          });
-        },
-      );
-      return tab;
-    }
-
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarIconBrightness:
-          isDark ? Brightness.light : Brightness.dark,
-      systemNavigationBarColor: isDark
-          ? AppColor.bottomNavigationBarDark
-          : AppColor.bottomNavigationBarLight,
+      systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor: isDark ? AppColor.bottomNavigationBarDark : AppColor.bottomNavigationBarLight,
     ));
   }
 
@@ -66,86 +41,78 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double bottomNavigationBarHeight =
-        (MediaQuery.of(context).viewInsets.bottom > 0) ? 0 : 50;
+    double bottomNavigationBarHeight = (MediaQuery.of(context).viewInsets.bottom > 0) ? 0 : 50;
     double appBarHeight = ScreenSize.setScreenHeight(context, 0.1);
     if (appBarHeight < 95) appBarHeight = 95;
-    double minHeightBox =
-        ScreenSize.setScreenHeight(context, 0.3) - bottomNavigationBarHeight;
-    double maxHeightBox = ScreenSize.fullHeightScreen(context) -
-        appBarHeight -
-        bottomNavigationBarHeight;
-    // return ScaffoldPage(
-    //   // backgroundColor: Colors.white,
-    //   content: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
-    //     builder: (_, bottomNavigationState) {
-    //       if (bottomNavigationState.activeIcon == ActiveIcon.icon1) {
-    //         return Container();
-    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon2) {
-    //         return Container();
-    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon3) {
-    //         return Container();
-    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon4) {
-    //         return const ProfileScreen();
-    //       } else if (bottomNavigationState.activeIcon == ActiveIcon.icon5) {
-    //         return SizedBox(
-    //           height: 150,
-    //           child: Center(
-    //             child: Text(
-    //               "The user profile can be found here",
-    //               // style:
-    //               //     TextStyle(color: Theme.of(context).colorScheme.primary),
-    //             ),
-    //           ),
-    //         );
-    //       }
-    //       return Container();
-    //     },
-    //   ),
-    //   bottomBar: MainBottomNavigationBar(height: bottomNavigationBarHeight),
-    // );
-    return ScaffoldPage(
-      content: TabView(
-        tabs: [
-          Tab(
-            text: Text('Document 1'),
-            icon: const FlutterLogo(),
-            body: Container(
-              color: Colors
-                  .accentColors[Random().nextInt(Colors.accentColors.length)],
-            ),
-          ),
-          Tab(
-            text: Text('Document 1'),
-            icon: const FlutterLogo(),
-            body: Container(
-              color: Colors
-                  .accentColors[Random().nextInt(Colors.accentColors.length)],
-            ),
-          ),
-          Tab(
-            text: Text('Document 1'),
-            icon: const FlutterLogo(),
-            body: Container(
-              color: Colors
-                  .accentColors[Random().nextInt(Colors.accentColors.length)],
-            ),
-          ),
-          Tab(
-            text: Text('Document 1'),
-            icon: const FlutterLogo(),
-            body: Container(
-              color: Colors
-                  .accentColors[Random().nextInt(Colors.accentColors.length)],
-            ),
-          ),
-        ],
-        currentIndex: currentIndex,
-        onChanged: (index) => setState(() => currentIndex = index),
-        tabWidthBehavior: TabWidthBehavior.equal,
-        closeButtonVisibility: CloseButtonVisibilityMode.always,
-        // showScrollButtons: true,
+    double minHeightBox = ScreenSize.setScreenHeight(context, 0.3) - bottomNavigationBarHeight;
+    double maxHeightBox = ScreenSize.fullHeightScreen(context) - appBarHeight - bottomNavigationBarHeight;
+    return Scaffold(
+      // backgroundColor: Colors.white,
+      body: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
+        builder: (_, bottomNavigationState) {
+          if (bottomNavigationState.activeIcon == ActiveIcon.icon1) {
+            return Container();
+          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon2) {
+            return Container();
+          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon3) {
+            return Container();
+          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon4) {
+            return const ProfileScreen();
+          } else if (bottomNavigationState.activeIcon == ActiveIcon.icon5) {
+            return SizedBox(
+              height: 150,
+              child: Center(
+                child: Text(
+                  "The user profile can be found here",
+                  // style:
+                  //     TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+            );
+          }
+          return Container();
+        },
       ),
+      bottomNavigationBar: MainBottomNavigationBar(height: bottomNavigationBarHeight),
     );
+    // return ScaffoldPage(
+    //   content: TabView(
+    //     tabs: [
+    //       Tab(
+    //         text: Text('Document 1'),
+    //         icon: const FlutterLogo(),
+    //         body: Container(
+    //           color: Colors.accentColors[Random().nextInt(Colors.accentColors.length)],
+    //         ),
+    //       ),
+    //       Tab(
+    //         text: Text('Document 1'),
+    //         icon: const FlutterLogo(),
+    //         body: Container(
+    //           color: Colors.accentColors[Random().nextInt(Colors.accentColors.length)],
+    //         ),
+    //       ),
+    //       Tab(
+    //         text: Text('Document 1'),
+    //         icon: const FlutterLogo(),
+    //         body: Container(
+    //           color: Colors.accentColors[Random().nextInt(Colors.accentColors.length)],
+    //         ),
+    //       ),
+    //       Tab(
+    //         text: Text('Document 1'),
+    //         icon: const FlutterLogo(),
+    //         body: Container(
+    //           color: Colors.accentColors[Random().nextInt(Colors.accentColors.length)],
+    //         ),
+    //       ),
+    //     ],
+    //     currentIndex: currentIndex,
+    //     onChanged: (index) => setState(() => currentIndex = index),
+    //     tabWidthBehavior: TabWidthBehavior.equal,
+    //     closeButtonVisibility: CloseButtonVisibilityMode.always,
+    //     // showScrollButtons: true,
+    //   ),
+    // );
   }
 }

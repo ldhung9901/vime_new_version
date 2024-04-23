@@ -40,10 +40,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<DirectionalityCubit>(
-              create: (context) => locator<DirectionalityCubit>()),
-          BlocProvider<BottomNavigationBarCubit>(
-              create: (context) => locator<BottomNavigationBarCubit>()),
+          BlocProvider<DirectionalityCubit>(create: (context) => locator<DirectionalityCubit>()),
+          BlocProvider<BottomNavigationBarCubit>(create: (context) => locator<BottomNavigationBarCubit>()),
         ],
         child: FluentApp.router(
           //  title: appTitle,
@@ -66,12 +64,10 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           //locale: appTheme.locale,
-          builder: (context, child) {
-            return MainWrapperScreen();
-          },
-          routeInformationParser: router.routeInformationParser,
-          routerDelegate: router.routerDelegate,
-          routeInformationProvider: router.routeInformationProvider,
+          routerConfig: router,
+          // routeInformationParser: router.routeInformationParser,
+          // routerDelegate: router.routerDelegate,
+          // routeInformationProvider: router.routeInformationProvider,
         ));
     // return MultiBlocProvider(
     //   providers: [
