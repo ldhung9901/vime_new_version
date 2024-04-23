@@ -1,4 +1,5 @@
 // App Theme is Light
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_vime/core/config/language_detector.dart';
@@ -36,89 +37,80 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    //  return MultiBlocProvider(
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<DirectionalityCubit>(
+              create: (context) => locator<DirectionalityCubit>()),
+          BlocProvider<BottomNavigationBarCubit>(
+              create: (context) => locator<BottomNavigationBarCubit>()),
+        ],
+        child: FluentApp(
+          //  title: appTitle,
+          // themeMode: appTheme.mode,
+          debugShowCheckedModeBanner: false,
+          // color: appTheme.colors,
+          darkTheme: FluentThemeData(
+            brightness: Brightness.dark,
+            // accentColor: appTheme.colors,
+            visualDensity: VisualDensity.standard,
+            focusTheme: FocusThemeData(
+              glowFactor: is10footScreen(context) ? 2.0 : 0.0,
+            ),
+          ),
+          theme: FluentThemeData(
+            // accentColor: appTheme.colors,
+            visualDensity: VisualDensity.standard,
+            focusTheme: FocusThemeData(
+              glowFactor: is10footScreen(context) ? 2.0 : 0.0,
+            ),
+          ),
+          //locale: appTheme.locale,
+          builder: (context, child) {
+            return MainWrapperScreen();
+          },
+        ));
+    // return MultiBlocProvider(
     //   providers: [
+    //     //    BlocProvider<UserBloc>(create: (context) => locator<UserBloc>()),
+    //     BlocProvider<ThemeCubit>(create: (context) => locator<ThemeCubit>()),
     //     BlocProvider<DirectionalityCubit>(
     //         create: (context) => locator<DirectionalityCubit>()),
     //     BlocProvider<BottomNavigationBarCubit>(
     //         create: (context) => locator<BottomNavigationBarCubit>()),
     //   ],
-    //   child: ChangeNotifierProvider.value(
-    //     value: _appTheme,
-    //     builder: (context, child) {
-    //       final appTheme = context.watch<AppTheme>();
-    //       return FluentApp(
-    //         //  title: appTitle,
-    //         themeMode: appTheme.mode,
-    //         debugShowCheckedModeBanner: false,
-    //         color: appTheme.colors,
-    //         darkTheme: FluentThemeData(
-    //           brightness: Brightness.dark,
-    //           accentColor: appTheme.colors,
-    //           visualDensity: VisualDensity.standard,
-    //           focusTheme: FocusThemeData(
-    //             glowFactor: is10footScreen(context) ? 2.0 : 0.0,
-    //           ),
-    //         ),
-    //         theme: FluentThemeData(
-    //           accentColor: appTheme.colors,
-    //           visualDensity: VisualDensity.standard,
-    //           focusTheme: FocusThemeData(
-    //             glowFactor: is10footScreen(context) ? 2.0 : 0.0,
-    //           ),
-    //         ),
-    //         locale: appTheme.locale,
-    //         builder: (context, child) {
-    //           return Directionality(
-    //               textDirection: appTheme.textDirection,
-    //               child: MainWrapperScreen());
-    //         },
-    //       );
-    //     },
+    //   child: MultiProvider(
+    //     providers: [
+    //       ChangeNotifierProvider(create: (_) => DirectionalityProvider()),
+    //     ],
+    //     child: Builder(
+    //       builder: (context) {
+    //         LanguageDetector.init(context);
+    //         return ChangeNotifierProvider<DirectionalityProvider>(
+    //           create: (_) => DirectionalityProvider(),
+    //           child: Consumer<DirectionalityProvider>(
+    //               builder: (context, directionalityProvider, child) {
+    //             ThemeDetector.init(context);
+    //             return Directionality(
+    //                 textDirection: directionalityProvider.direction,
+    //                 child: BlocBuilder<ThemeCubit, ThemeState>(
+    //                   builder: (themeContext, themeState) {
+    //                     isDark = themeState.isDark;
+    //                     return MaterialApp(
+    //                       debugShowCheckedModeBanner: false,
+    //                       theme: themeState.themeData,
+    //                       home: Directionality(
+    //                         textDirection: directionalityProvider.direction,
+    //                         child: const MainWrapperScreen(),
+    //                       ),
+    //                     );
+    //                   },
+    //                 ));
+    //           }),
+    //         );
+    //       },
+    //     ),
     //   ),
     // );
-    return MultiBlocProvider(
-      providers: [
-        //    BlocProvider<UserBloc>(create: (context) => locator<UserBloc>()),
-        BlocProvider<ThemeCubit>(create: (context) => locator<ThemeCubit>()),
-        BlocProvider<DirectionalityCubit>(
-            create: (context) => locator<DirectionalityCubit>()),
-        BlocProvider<BottomNavigationBarCubit>(
-            create: (context) => locator<BottomNavigationBarCubit>()),
-      ],
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => DirectionalityProvider()),
-        ],
-        child: Builder(
-          builder: (context) {
-            LanguageDetector.init(context);
-            return ChangeNotifierProvider<DirectionalityProvider>(
-              create: (_) => DirectionalityProvider(),
-              child: Consumer<DirectionalityProvider>(
-                  builder: (context, directionalityProvider, child) {
-                ThemeDetector.init(context);
-                return Directionality(
-                    textDirection: directionalityProvider.direction,
-                    child: BlocBuilder<ThemeCubit, ThemeState>(
-                      builder: (themeContext, themeState) {
-                        isDark = themeState.isDark;
-                        return MaterialApp(
-                          debugShowCheckedModeBanner: false,
-                          theme: themeState.themeData,
-                          home: Directionality(
-                            textDirection: directionalityProvider.direction,
-                            child: const MainWrapperScreen(),
-                          ),
-                        );
-                      },
-                    ));
-              }),
-            );
-          },
-        ),
-      ),
-    );
   }
 }
 

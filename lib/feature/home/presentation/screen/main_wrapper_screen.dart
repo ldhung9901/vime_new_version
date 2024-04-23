@@ -58,6 +58,7 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
     // });
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
         builder: (_, bottomNavigationState) {
           if (bottomNavigationState.activeIcon == ActiveIcon.icon1) {

@@ -15,7 +15,7 @@ class MainBottomNavigationBar extends StatelessWidget {
     return BottomAppBar(
       height: height,
       padding: const EdgeInsets.all(0),
-      color: Colors.red,
+      color: Colors.white,
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background,
